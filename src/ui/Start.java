@@ -32,7 +32,6 @@ public class Start extends Application {
 	public static Stage primStage() {
 		return primStage;
 	}
-	// this is a comment from logic branch
 	public static class Colors {
 		static Color green = Color.web("#034220");
 		static Color red = Color.FIREBRICK;
