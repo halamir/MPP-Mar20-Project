@@ -41,34 +41,41 @@ public class LoginWindow extends Stage implements LibWindow {
     
     public void init() { 
         GridPane grid = new GridPane();
+        grid.setMinHeight(400);
+        grid.setMinWidth(400);
         grid.setId("top-container");
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-
-        Text scenetitle = new Text("Login");
-        scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
+        
+        Text scenetitle = new Text("Welcome");
+        scenetitle.setFont(Font.font("Arial", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
+        Text sceneSubtitle = new Text("'The key to knowledge is in every book' -Ghandi");
+        sceneSubtitle.setFont(Font.font("Arial", FontWeight.NORMAL, 10)); //Tahoma
+        grid.add(sceneSubtitle, 0, 1, 2, 1);
         Label userName = new Label("User Name:");
-        grid.add(userName, 0, 1);
+        //grid.add(userName, 0, 1);
 
         TextField userTextField = new TextField();
         //userTextField.setPrefColumnCount(10);
         //userTextField.setPrefWidth(30);
-        grid.add(userTextField, 1, 1);
+        userTextField.setPromptText("User Name");
+        grid.add(userTextField, 0, 2,2,1);
 
         Label pw = new Label("Password:");
-        grid.add(pw, 0, 2);
+        //grid.add(pw, 0, 2);
         grid.setGridLinesVisible(false) ;
 
         PasswordField pwBox = new PasswordField();
-        grid.add(pwBox, 1, 2);
+        pwBox.setPromptText("Password");
+        grid.add(pwBox, 0, 3,2,1);
 
         Button loginBtn = new Button("Log in");
         HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.setAlignment(Pos.BOTTOM_CENTER);
         hbBtn.getChildren().add(loginBtn);
         grid.add(hbBtn, 1, 4);
 
@@ -108,7 +115,8 @@ public class LoginWindow extends Stage implements LibWindow {
         Scene scene = new Scene(grid);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
-        
+
+        scenetitle.requestFocus();
     }
 	
 	
