@@ -7,10 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-/**
- *
- */
-// welcome to book class test
 final public class Book implements Serializable {
 	
 	private static final long serialVersionUID = 6110690276685962829L;
