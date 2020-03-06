@@ -163,7 +163,7 @@ public class MemberWindow extends Stage implements LibWindow {
 		ObservableList<LibraryMember> asd = FXCollections.observableArrayList();
 		TestData asdasdsa = new TestData();
 		asdasdsa.libraryMemberData();
-		asd.addAll(asdasdsa.members);
+		//asd.addAll(asdasdsa.members);
 		return asd;
 	}
 	public static void run() {

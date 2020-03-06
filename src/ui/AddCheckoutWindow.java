@@ -100,8 +100,8 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
 		ObservableList<Book> booksObservable = FXCollections.observableArrayList();
 		TestData asdasdsa = new TestData();
 		asdasdsa.libraryMemberData();
-		memebers.addAll(asdasdsa.members);
-		booksObservable.addAll(asdasdsa.allBooks);
+		//memebers.addAll(asdasdsa.members);
+		//booksObservable.addAll(asdasdsa.allBooks);
 		comboboxBook = new ComboBox<Book>(booksObservable);
 		comboboxBook.setPrefWidth(300);
 

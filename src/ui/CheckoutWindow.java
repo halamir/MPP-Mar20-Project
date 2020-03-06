@@ -182,7 +182,7 @@ public class CheckoutWindow extends Stage implements LibWindow {
 		ObservableList<Book> asd = FXCollections.observableArrayList();
 		TestData asdasdsa = new TestData();
 		 
-		asd.addAll(asdasdsa.allBooks);
+		//asd.addAll(asdasdsa.allBooks);
 		return asd;
 	}
 	public static void run() {
