@@ -78,4 +78,8 @@ public class SystemController implements ControllerInterface {
 		}
 		da.saveBook(book);
 	}
+
+	public List<LibraryMember> allMembers() {
+		return new ArrayList<LibraryMember>(da.readMemberMap().values());
+	}
 }

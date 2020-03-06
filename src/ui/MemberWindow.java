@@ -86,6 +86,7 @@ public class MemberWindow extends Stage implements LibWindow {
 		buttonAdd.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
+
         		AddMemberWindow.run();        	   
         	}
         });
@@ -161,9 +162,8 @@ public class MemberWindow extends Stage implements LibWindow {
 	private static  ObservableList<LibraryMember> getMembersTest() {
 		// TODO Auto-generated method stub
 		ObservableList<LibraryMember> asd = FXCollections.observableArrayList();
-		TestData asdasdsa = new TestData();
-		asdasdsa.libraryMemberData();
-		//asd.addAll(asdasdsa.members);
+		SystemController helpPls = new SystemController();
+		asd.addAll(helpPls.allMembers());
 		return asd;
 	}
 	public static void run() {

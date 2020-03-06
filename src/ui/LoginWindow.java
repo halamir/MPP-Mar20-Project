@@ -42,19 +42,20 @@ public class LoginWindow extends Stage implements LibWindow {
 	/* This class is a singleton */
     private LoginWindow () {}
     
-    public void tryLogin() {
+    public void tryLogin(String user,String passs) {
     	ControllerInterface c = new SystemController();
 		try {
-			//c.login(userTextField.getText().trim(), pwBox.getText().trim());
-			c.login("102", "abc");
+			//c.login(user, passs);
+			c.login("103", "111");
+			
 			Start.hideAllWindows();
 			String role = SystemController.currentAuth.toString();
 			switch(role) {
 			case "LIBRARIAN":
-				AddCheckoutWindow.run();
+				CheckoutWindow.run();
 				break;
 			case "ADMIN":
-				AddCheckoutWindow.run();
+				BookWindow.run();
 				break;
 			case "BOTH":
 				BookWindow.run();
@@ -63,7 +64,6 @@ public class LoginWindow extends Stage implements LibWindow {
 		} catch (LoginException e) {
 			messageBar.setFill(Start.Colors.red);
 			messageBar.setText("Error! " + e.getMessage());
-			e.printStackTrace();
 		}
     	
     }
@@ -124,14 +124,22 @@ public class LoginWindow extends Stage implements LibWindow {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.ENTER)  {
-                	tryLogin();                	
+                	tryLogin(userTextField.getText().trim(),pwBox.getText().trim());                	
+                }
+            }
+        });
+        pwBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+                	tryLogin(userTextField.getText().trim(),pwBox.getText().trim());                	
                 }
             }
         });
         loginBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		 tryLogin();
+        		 tryLogin(userTextField.getText().trim(),pwBox.getText().trim());
         	   
         	}
         });

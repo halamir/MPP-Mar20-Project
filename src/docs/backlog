@@ -1,0 +1,13 @@
+March 3th, 2020
+1. The class CopyBook should be implemented to make the system extendable.
+Is not enough to have List<Book> copies, it should have List<CopyBook>.
+
+March 4th, 2020
+1. As the project is divided in UI, logic, and data serialization, each one of the
+members should focus in each section rather than focus in diferent Use Cases.
+2. The section are divided in diferent packages so it will cause no conflict once 
+pushed to the main repository.
+
+
+March 6th, 2020
+1. Add logout button for easy views of the roles in users.

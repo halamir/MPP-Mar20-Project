@@ -159,21 +159,25 @@ public class CheckoutWindow extends Stage implements LibWindow {
 	*/
     public static TableView<Book> createTableDeleteBeforePls() {
     	//Members
-    	TableColumn<Book,String> bookISBN = new TableColumn<>("ISBN");
+    	TableColumn<Book,String> bookISBN = new TableColumn<>("Cliente");
     	bookISBN.setMinWidth(180);
     	bookISBN.setCellValueFactory(new PropertyValueFactory("isbn") ) ;
 
-    	TableColumn<Book,String> bookTitle = new TableColumn<>("Title");
+    	TableColumn<Book,String> bookTitle = new TableColumn<>("Book");
     	bookTitle.setMinWidth(180);
     	bookTitle.setCellValueFactory(new PropertyValueFactory("title") ) ;
     	
-    	TableColumn<Book,String> bookMaxLength = new TableColumn<>("Number of copies");
+    	TableColumn<Book,String> bookMaxLength = new TableColumn<>("Check out date");
     	bookMaxLength.setMinWidth(180);
     	bookMaxLength.setCellValueFactory(new PropertyValueFactory("maxCheckoutLength") ) ;
+    	
+    	TableColumn<Book,String> asdasd = new TableColumn<>("Due out date");
+    	asdasd.setMinWidth(180);
+    	asdasd.setCellValueFactory(new PropertyValueFactory("maxCheckoutLength") ) ;
  
     	TableView<Book> tableMember = new TableView();
     	tableMember.setItems( getMembersTestDeleteBeforePls());
-    	tableMember.getColumns().addAll(bookISBN,bookTitle,bookMaxLength);
+    	tableMember.getColumns().addAll(bookISBN,bookTitle,bookMaxLength,asdasd);
     	return tableMember;
     }
 

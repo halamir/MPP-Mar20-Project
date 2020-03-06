@@ -1,5 +1,6 @@
 package ui;
 
+import business.Address;
 import business.Book;
 import business.ControllerInterface;
 import business.LibraryMember;
@@ -40,39 +41,42 @@ import javafx.util.Callback;
 
 public class AddMemberWindow extends Stage implements LibWindow {
 	public static final AddMemberWindow INSTANCE = new AddMemberWindow();
-	
+
 	private boolean isInitialized = false;
-	
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
+
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
+
 	private Text messageBar = new Text();
+
 	public void clear() {
 		messageBar.setText("");
 	}
-	
+
 	/* This class is a singleton */
-    private AddMemberWindow () {}
-    
-    public void init() {  
+	private AddMemberWindow() {
+	}
 
-    	VBox topContainer = new VBox();
+	public void init() {
+
+		VBox topContainer = new VBox();
 		topContainer.setId("top-container");
-		topContainer.autosize();   
-
+		topContainer.autosize();
 
 		VBox generalContainer = new VBox();
 		generalContainer.setId("general-container");
 		generalContainer.setPrefHeight(500);
 		generalContainer.setPrefWidth(300);
-		generalContainer.setPadding(new Insets(10,10,10,10));
+		generalContainer.setPadding(new Insets(10, 10, 10, 10));
 		VBox.setMargin(generalContainer, new Insets(20, 20, 20, 20));
-		
-		//StackPane basicStack = HelpWindow.getBasicTopPane();
-		//topContainer.getChildren().add(basicStack);
+
+		// StackPane basicStack = HelpWindow.getBasicTopPane();
+		// topContainer.getChildren().add(basicStack);
 		Label labelTitulo = new Label("Add Member ");
 		labelTitulo.setId("window-title");
 		GridPane gridForm = new GridPane();
@@ -113,7 +117,7 @@ public class AddMemberWindow extends Stage implements LibWindow {
 		gridForm.add(state, 0, 7);
 		gridForm.add(zip, 0, 8);
 		gridForm.add(telephone, 0, 9);
-		
+
 		Button buttonCancel = new Button("Cancel");
 		Button buttonSave = new Button("Save");
 		HBox buttonContainer = new HBox();
@@ -121,42 +125,45 @@ public class AddMemberWindow extends Stage implements LibWindow {
 		buttonSave.setAlignment(Pos.CENTER_RIGHT);
 
 		buttonCancel.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		MemberWindow.run();        	   
-        	}
-        });
+			@Override
+			public void handle(ActionEvent e) {
+				MemberWindow.run();
+			}
+		});
 
 		buttonSave.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		System.out.println("Implement me pls");
-        		MemberWindow.run();        	   
-        	}
-        });
+			@Override
+			public void handle(ActionEvent e) {
+
+				SystemController helpPls = new SystemController();
+				helpPls.saveLibraryMemebr(memberId.getText(), firstName.getText(), lastName.getText(),
+						new Address(street.getText(), city.getText(), state.getText(), zip.getText()),
+						telephone.getText());
+				MemberWindow.run();
+			}
+		});
 		buttonContainer.getChildren().add(buttonCancel);
 		buttonContainer.getChildren().add(buttonSave);
-		
-		gridForm.add(buttonContainer,0,10);
-		
+
+		gridForm.add(buttonContainer, 0, 10);
+
 		generalContainer.getChildren().add(gridForm);
 		topContainer.getChildren().add(generalContainer);
-		
-		Scene scene = new Scene(topContainer, 300,600);
-        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-        setScene(scene);
-        
-    }
-   
+
+		Scene scene = new Scene(topContainer, 300, 600);
+		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		setScene(scene);
+
+	}
+
 	public static void run() {
 		// TODO Auto-generated method stub
-			Start.hideAllWindows();
-			if(!AddMemberWindow.INSTANCE.isInitialized()) {
-				AddMemberWindow.INSTANCE.init();
-   			}
-			AddMemberWindow.INSTANCE.clear();
-			AddMemberWindow.INSTANCE.show();
+		Start.hideAllWindows();
+		if (!AddMemberWindow.INSTANCE.isInitialized()) {
+			AddMemberWindow.INSTANCE.init();
+		}
+		AddMemberWindow.INSTANCE.clear();
+		AddMemberWindow.INSTANCE.show();
 	}
-	
-	
+
 }
