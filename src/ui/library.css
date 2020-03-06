@@ -1,10 +1,40 @@
 #top-container{
      -fx-background-image: url("library1.png");
+     -fx-background-repeat : no-repeat;
+     -fx-background-size: cover;
+      
 }
-#back-login{
-   
+#top-container-grid ,#label-container,#login-container,#general-container{
+     -fx-background-color: #17141480;
+      -fx-text-fill: white;
+      
 }
-
-.label {
-   -fx-text-fill: #000099;
+#title-login, #sub-title-login, #inputUser, #inputPass{
+ -fx-margin-bottom : 15px
+}
+#window-title{
+   -fx-font-size: 28px;
+   -fx-font-weight: bold;
+   -fx-font-family: sans-serif;
+      -fx-text-fill: white;
+      -fx-text-align: center;
+}
+#title-login{
+   -fx-font-size: 38px;
+   -fx-font-weight: bold;
+   -fx-font-family: sans-serif;
+      -fx-text-fill: white;
+      -fx-text-align: center;
+}
+.button{
+  -fx-color : black ;
+      -fx-text-fill: white;
+      -fx-padding: 10px 16px;
+   -fx-font-size: 14px;
+    -fx-line-height: 1.3333333;
+    -fx-border-radius: 6px;
+   -fx-font-weight: bold;
+}
+#label-usuario{
+   -fx-text-align: right;
 }
