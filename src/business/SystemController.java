@@ -12,9 +12,9 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
+	private DataAccess da = new DataAccessFacade();
 
 	public void login(String id, String password) throws LoginException {
-		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
 		if (!map.containsKey(id)) {
 			throw new LoginException("ID " + id + " not found");
@@ -28,7 +28,6 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public List<String> allMemberIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
@@ -36,7 +35,6 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public List<String> allBookIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
@@ -47,12 +45,37 @@ public class SystemController implements ControllerInterface {
 		BookCopy bookCopy = book.getNextAvailableCopy();
 		if (null == bookCopy)
 			return null;
-		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> members = da.readMemberMap();
 		LibraryMember member = members.get(userId);
 		CheckoutEntry entry = new CheckoutEntry(member, bookCopy, checkoutDate, dueDate);
 		CheckoutRecord record = member.getCheckoutRecord();
 		record.addChecoutEntries(entry);
 		return record;
+	}
+
+	public void saveLibraryMemebr(String memberId, String fName, String lName, Address address, String tel) {
+		HashMap<String, LibraryMember> members = da.readMemberMap();
+		LibraryMember member;
+		if (members.keySet().contains(memberId))
+			member = members.get(memberId);
+		else
+			member = new LibraryMember(memberId, fName, lName, tel, address);
+		da.saveMember(member);
+	}
+
+	public void saveNewdBook(String isbn, String title, List<Author> authors, int maxCkeckoutLength)
+			throws LibrarySystemException {
+		if (allBookIds().contains(isbn)) {
+			throw new LibrarySystemException("Book with ISBN " + isbn + " already exists!");
+		}
+		Book book = new Book(isbn, title, maxCkeckoutLength, authors);
+		da.saveBook(book);
+	}
+
+	public void updateBook(Book book) throws LibrarySystemException {
+		if (!allBookIds().contains(book.getIsbn())) {
+			throw new LibrarySystemException("Book with ISBN " + book.getIsbn() + " doesn't exist!");
+		}
+		da.saveBook(book);
 	}
 }

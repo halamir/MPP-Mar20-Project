@@ -7,6 +7,10 @@ final public class LibraryMember extends Person implements Serializable {
 	private String memberId;
 	private CheckoutRecord checkoutRecord = new CheckoutRecord();
 
+	public static String generateLibraryMemberId() {
+		return "" + System.currentTimeMillis();
+	}
+
 	public LibraryMember(String memberId, String fname, String lname, String tel, Address add) {
 		super(fname, lname, tel, add);
 		this.memberId = memberId;
