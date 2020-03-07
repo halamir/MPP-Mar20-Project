@@ -2,6 +2,7 @@ March 3th, 2020
 1. The class CopyBook should be implemented to make the system extendable.
 Is not enough to have List<Book> copies, it should have List<CopyBook>.
 
+
 March 4th, 2020
 1. As the project is divided in UI, logic, and data serialization, each one of the
 members should focus in each section rather than focus in diferent Use Cases.
@@ -11,3 +12,9 @@ pushed to the main repository.
 
 March 6th, 2020
 1. Add logout button for easy views of the roles in users.
+
+
+March 6th, 2020
+1- Enhance how the plus-button that increments book copies number to pop up a window that takes a number of copies to increase at
+   once, and that also displays the current number of copies.
+2- Add "Search" to the book list in the checkout window.
