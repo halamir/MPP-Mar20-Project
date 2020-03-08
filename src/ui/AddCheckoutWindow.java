@@ -1,13 +1,11 @@
 package ui;
 
+import java.time.LocalDate;
+
 import business.Book;
-import business.ControllerInterface;
 import business.LibraryMember;
-import business.LoginException;
+import business.LibrarySystemException;
 import business.SystemController;
-import dataaccess.TestData;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,30 +14,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import ui.components.AutoCompleteBox;
 
 public class AddCheckoutWindow extends Stage implements LibWindow {
 	public static final AddCheckoutWindow INSTANCE = new AddCheckoutWindow();
@@ -62,6 +45,8 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
 
     ComboBox<LibraryMember> comboBoxMember = new ComboBox<LibraryMember>();
 	ComboBox<Book> comboboxBook = new ComboBox<Book>();
+	AutoCompleteBox<LibraryMember> lll = null;
+	AutoCompleteBox<Book> bbb = null;
     public void init() {  
 
     	VBox topContainer = new VBox();
@@ -76,8 +61,6 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
 		generalContainer.setPadding(new Insets(10,10,10,10));
 		VBox.setMargin(generalContainer, new Insets(20, 20, 20, 20));
 		
-		//StackPane basicStack = HelpWindow.getBasicTopPane();
-		//topContainer.getChildren().add(basicStack);
 		Label labelTitulo = new Label("Add Checkout Record ");
 		labelTitulo.setId("window-title");
 		GridPane gridForm = new GridPane();
@@ -89,23 +72,25 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
 		DatePicker checkoutDate = new DatePicker(); 
 		checkoutDate.setPromptText("Checkout Date");
 		checkoutDate.setId("checkoutDate");
+		checkoutDate.setValue(LocalDate.now());
 		checkoutDate.setPrefWidth(300);
 		DatePicker dueDate = new DatePicker(); 
 		dueDate.setPromptText("Date due");
 		dueDate.setId("dueDate");
 		dueDate.setPrefWidth(300);
-		TestData asd = new TestData();
+		dueDate.setValue(LocalDate.now().plusDays(21));
 
 		ObservableList<LibraryMember> memebers = FXCollections.observableArrayList();
 		ObservableList<Book> booksObservable = FXCollections.observableArrayList();
-		TestData asdasdsa = new TestData();
-		asdasdsa.libraryMemberData();
-		//memebers.addAll(asdasdsa.members);
-		//booksObservable.addAll(asdasdsa.allBooks);
+		SystemController sc = new SystemController();
+		memebers.addAll(sc.allMembers());
+		booksObservable.addAll(sc.allBooks());
 		comboboxBook = new ComboBox<Book>(booksObservable);
+		bbb = new AutoCompleteBox<Book>(comboboxBook);
 		comboboxBook.setPrefWidth(300);
 
 		comboBoxMember = new ComboBox<LibraryMember>(memebers);
+		lll=new AutoCompleteBox<LibraryMember>(comboBoxMember);
 		comboBoxMember.setPrefWidth(300);
 		gridForm.add(checkoutDate, 0, 2);
 		gridForm.add(dueDate, 0, 3);
@@ -122,11 +107,20 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
 		buttonSave.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Book selectedBook = comboboxBook.getSelectionModel().getSelectedItem();
-        		LibraryMember selectedMember = comboBoxMember.getSelectionModel().getSelectedItem();
-        		System.out.println(selectedBook.getIsbn()+" book");
-        		System.out.println(selectedMember.getFirstName()+" Member");
-        		//CheckoutWindow.run(); 
+        		Book selectedBook = bbb.getCurrentValue();
+        		LibraryMember selectedMember = lll.getCurrentValue();
+        		if(null == checkoutDate.getValue() || null == dueDate.getValue() || null == selectedBook || null == selectedMember) {
+        			HelpWindow.showAlert("Pleaes enter all checkout information!");
+        			return;
+        		}
+        		SystemController sc = new SystemController();
+        		try {
+					sc.checkoutABook(selectedBook, selectedMember.getMemberId(), java.sql.Date.valueOf(checkoutDate.getValue()), java.sql.Date.valueOf(dueDate.getValue()));
+				} catch (LibrarySystemException e1) {
+					HelpWindow.showAlert(e1.getMessage());
+					return;
+				}
+        		CheckoutWindow.run(); 
         	   
         	}
         });
@@ -149,7 +143,7 @@ public class AddCheckoutWindow extends Stage implements LibWindow {
         setScene(scene);
         
     }
-   
+
 	public static void run() {
 		// TODO Auto-generated method stub
 		Start.hideAllWindows();

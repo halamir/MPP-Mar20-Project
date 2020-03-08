@@ -21,6 +21,8 @@ final public class LibraryMember extends Person implements Serializable {
 	}
 
 	public CheckoutRecord getCheckoutRecord() {
+		if(checkoutRecord == null)
+			checkoutRecord = new CheckoutRecord();
 		return checkoutRecord;
 	}
 

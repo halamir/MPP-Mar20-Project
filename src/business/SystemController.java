@@ -41,16 +41,19 @@ public class SystemController implements ControllerInterface {
 	}
 
 	///// Added by Hatem /////
-	public CheckoutRecord checkoutABook(Book book, String userId, Date checkoutDate, Date dueDate) {
+	public void checkoutABook(Book book, String memberId, Date checkoutDate, Date dueDate)
+			throws LibrarySystemException {
 		BookCopy bookCopy = book.getNextAvailableCopy();
 		if (null == bookCopy)
-			return null;
-		HashMap<String, LibraryMember> members = da.readMemberMap();
-		LibraryMember member = members.get(userId);
+			throw new LibrarySystemException("Book with ISBN " + book.getIsbn() + " has no available copies!");
+
+		bookCopy.changeAvailability();
+		book.updateCopies(bookCopy);
+		LibraryMember member = da.readMemberMap().get(memberId);
 		CheckoutEntry entry = new CheckoutEntry(member, bookCopy, checkoutDate, dueDate);
-		CheckoutRecord record = member.getCheckoutRecord();
-		record.addChecoutEntries(entry);
-		return record;
+		member.getCheckoutRecord().addChecoutEntries(entry);
+		da.saveMember(member);
+		da.saveBook(book);
 	}
 
 	public void saveLibraryMemebr(String memberId, String fName, String lName, Address address, String tel) {
@@ -61,6 +64,11 @@ public class SystemController implements ControllerInterface {
 		else
 			member = new LibraryMember(memberId, fName, lName, tel, address);
 		da.saveMember(member);
+	}
+
+	public void addBookCopies(Book book, int numCopies) {
+		book.addCopies(numCopies);
+		da.saveBook(book);
 	}
 
 	public void saveNewdBook(String isbn, String title, List<Author> authors, int maxCkeckoutLength)
@@ -81,5 +89,21 @@ public class SystemController implements ControllerInterface {
 
 	public List<LibraryMember> allMembers() {
 		return new ArrayList<LibraryMember>(da.readMemberMap().values());
+	}
+
+	public List<Book> allBooks() {
+		return new ArrayList<Book>(da.readBooksMap().values());
+	}
+
+	public List<CheckoutEntry> allCheckoutEntries() {
+		List<CheckoutEntry> entries = new ArrayList<CheckoutEntry>();
+		List<LibraryMember> members = allMembers();
+		if (null == members)
+			return entries;
+		for (LibraryMember member : members)
+			if (null != member && null != member.getCheckoutRecord()
+					&& null != member.getCheckoutRecord().getCheckoutEntries())
+				entries.addAll(member.getCheckoutRecord().getCheckoutEntries());
+		return entries;
 	}
 }

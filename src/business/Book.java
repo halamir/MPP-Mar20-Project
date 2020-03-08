@@ -32,7 +32,6 @@ final public class Book implements Serializable {
 			BookCopy c = copies[i];
 			if (c.equals(copy)) {
 				copies[i] = copy;
-
 			}
 		}
 	}
@@ -46,10 +45,13 @@ final public class Book implements Serializable {
 
 	}
 
-	public void addCopy() {
-		BookCopy[] newArr = new BookCopy[copies.length + 1];
+	public void addCopies(int numCopies) {
+		if (numCopies < 1)
+			return;
+		BookCopy[] newArr = new BookCopy[copies.length + numCopies];
 		System.arraycopy(copies, 0, newArr, 0, copies.length);
-		newArr[copies.length] = new BookCopy(this, copies.length + 1, true);
+		for (int i = copies.length; i < newArr.length; i++)
+			newArr[i] = new BookCopy(this, i + 1, true);
 		copies = newArr;
 	}
 
@@ -72,11 +74,19 @@ final public class Book implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Title: " + title + ", ISBN: " + isbn;
+		return "Title: " + title + ", ISBN: " + isbn + " (" + this.getNumAvailabeCopies() + ")";
 	}
 
 	public int getNumCopies() {
 		return copies.length;
+	}
+
+	public int getNumAvailabeCopies() {
+		int availCopies = 0;
+		for (BookCopy copy : copies)
+			if (copy.isAvailable())
+				availCopies++;
+		return availCopies;
 	}
 
 	public String getTitle() {

@@ -34,21 +34,21 @@ public class DataAccessFacade implements DataAccess {
 	public void saveBook(Book book) {
 		HashMap<String, Book> books = readBooksMap();
 		books.put(book.getIsbn(), book);
-		saveToStorage(StorageType.MEMBERS, book);	
+		saveToStorage(StorageType.BOOKS, books);	
 	}
 
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being
 		//   isbn -> Book
-		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
+		return (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, LibraryMember> readMemberMap() {
 		//Returns a Map with name/value pairs being
 		//   memberId -> LibraryMember
-		return (HashMap<String, LibraryMember>) readFromStorage(
+		return (HashMap<String, LibraryMember>)readFromStorage(
 				StorageType.MEMBERS);
 	}
 	

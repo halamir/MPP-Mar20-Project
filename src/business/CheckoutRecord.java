@@ -19,6 +19,9 @@ public class CheckoutRecord implements Serializable{
 		checkoutEntries.add(checkoutEntry);
 	}
 
+	public List<CheckoutEntry> getCheckoutEntries() {
+		return checkoutEntries;
+	}
 	public void changeCheckoutDueDate(CheckoutEntry checkoutEntry, Date dueDate) {
 		Iterator<CheckoutEntry> it = checkoutEntries.iterator();
 		while (it.hasNext()) {

@@ -1,65 +1,58 @@
 package ui;
 
-import java.util.Collections;
-import java.util.List;
-
-import business.ControllerInterface;
-import business.LoginException;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class HelpWindow extends Stage implements LibWindow {
 	public static final HelpWindow INSTANCE = new HelpWindow();
-	
+
 	private boolean isInitialized = false;
-	
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
+
 	public void isInitialized(boolean val) {
 		isInitialized = val;
 	}
+
 	private Text messageBar = new Text();
+
 	public void clear() {
 		messageBar.setText("");
 	}
-	
+
 	/* This class is a singleton */
-    private HelpWindow () {}
-    
-    public void init() {  
+	private HelpWindow() {
+	}
+
+	public void init() {
 
 		VBox topContainer = new VBox();
 		topContainer.setId("top-container");
-		topContainer.autosize();   
- 
+		topContainer.autosize();
+
 		topContainer.getChildren().add(getBasicTopPane());
-		
-		Scene scene = new Scene(topContainer, 800,500);
-        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-        setScene(scene);
-        
-    }
+
+		Scene scene = new Scene(topContainer, 800, 500);
+		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		setScene(scene);
+
+	}
+
 	public static StackPane getBasicTopPane() {
 		// TODO Auto-generated method stub
 		StackPane sgta = new StackPane();
@@ -115,6 +108,10 @@ public class HelpWindow extends Stage implements LibWindow {
 			sgta.getChildren().add(labelSystem);
 		return sgta;
 	}
-	
-	
+
+	static void showAlert(String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setContentText(message);
+		alert.show();
+	}
 }
